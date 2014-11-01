@@ -1,0 +1,18 @@
+{block content}
+<h3>logged in: {$email}</h3>
+<ul>
+	{foreach $roles as $role}
+	<li>{$role->name}</li>
+	{/foreach}
+</ul>
+<ul>
+	{foreach $users as $user}
+	<li>{$user->email}</li>
+	{/foreach}
+</ul>
+<ul>
+	{foreach $access as $row}
+	<li>{$row->resource} <strong>::</strong> {$row->action}</li>
+	{/foreach}
+</ul>
+<em>&hellip;empty file&hellip;</em>
