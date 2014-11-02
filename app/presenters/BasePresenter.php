@@ -18,6 +18,9 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	protected $user;
 	protected $isLoggedIn;
 
+    protected $filesJs    = array('loader'   => array(), 'header'  => array());
+    protected $filesCss   = array('loader'   => array(), 'header'  => array());
+
 	public function __construct(Model\UsersRepository $users, Model\RolesRepository $roles, Model\AccessRepository $access)
 	{
 		$this->roles  = $roles;
@@ -46,6 +49,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 			$this->template->moduleName = substr($this->name, 0, $a + 1);
 			$this->template->presenterName = substr($this->name, $a + 1);
 		}
+
+        $this->template->filesJs  = $this->filesJs['header'];
+        $this->template->filesCss = $this->filesCss['header'];
+        $this->template->language = 'cs';
 	}
 
 
@@ -106,5 +113,41 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         $httpRequest = $this->context->getService('httpRequest');
         $uri = $httpRequest->getUrl();
         return 'http://'.$uri->host;
+    }
+
+    protected function addFilesJs($files, $loader = true)
+    {
+        $key = ($loader) ? 'loader' : 'header';
+        foreach($files as $file)
+        {
+            if(in_array($file, $this->filesJs[$key])) continue;
+            $this->filesJs[$key][] = $file;    
+        }
+    }
+    
+    protected function addFilesCss($files, $loader = true)
+    {
+        $key = ($loader) ? 'loader' : 'header';
+        foreach($files as $file)
+        {
+            if(in_array($file, $this->filesCss[$key])) continue;
+            $this->filesCss[$key][] = $file;
+        }
+    }
+    
+    protected function createComponentJs()
+    {
+        $files = new \WebLoader\FileCollection($this->context->parameters['wwwDir'].'/js');
+        $files->addFiles($this->filesJs['loader']);
+        $compiler = \WebLoader\Compiler::createJsCompiler($files, $this->context->parameters['wwwDir'] . '/webtemp');
+        return new \WebLoader\Nette\JavaScriptLoader($compiler, $this->template->basePath . '/webtemp');
+    }
+    
+    protected function createComponentCss()
+    {
+        $files = new \WebLoader\FileCollection($this->context->parameters['wwwDir'].'/css');
+        $files->addFiles($this->filesCss['loader']);
+        $compiler = \WebLoader\Compiler::createCssCompiler($files, $this->context->parameters['wwwDir'] . '/webtemp');
+        return new \WebLoader\Nette\CssLoader($compiler, $this->template->basePath . '/webtemp');
     }
 }

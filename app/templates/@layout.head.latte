@@ -1,0 +1,12 @@
+    <title>TITLE</title>
+    <meta charset="UTF-8">
+    {foreach $filesJs as $file}
+    <script type="text/javascript" src="{$basePath}/js/{$file}"></script>
+    {/foreach}
+    {control js}
+    {foreach $filesCss as $file}
+    <link rel="stylesheet" media="screen" href="{$basePath}/css/{$file}">
+    {/foreach}
+    {control css}
+    <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+    <link rel="icon" href="{$basePath}/favicon.png" type="image/png">

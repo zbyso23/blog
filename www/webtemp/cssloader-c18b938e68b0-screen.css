@@ -1,0 +1,88 @@
+
+* {
+	font-family: 'Ledger', serif;
+}
+
+body {
+	font-size: 13.8pt;
+	line-height: 1.6;
+	color: #333;
+	background: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Signika', sans-serif;
+	color: #3484D2;
+	font-size: 35pt;
+	padding: 4pt 7pt;
+}
+
+h2 {
+	font-size: 29pt;
+	padding: 3pt 6pt;
+}
+
+h3 {
+	font-size: 24.5pt;
+	padding: 2.4pt 5.6pt;
+}
+
+h4 {
+	font-size: 19.82pt;
+	padding: 2pt 4.8pt;
+}
+
+h5 {
+	font-size: 16.79pt;
+	padding: 1.8pt 4.4pt;
+}
+
+h6 {
+	font-size: 13.74pt;
+	padding: 1.2pt 3.6pt;
+}
+
+
+#ajax-spinner {
+	margin: 15px 0 0 15px;
+	padding: 13px;
+	background: white url('../images/spinner.gif') no-repeat 50% 50%;
+	font-size: 0;
+	z-index: 123456;
+	display: none;
+}
+
+div.flash {
+	color: black;
+	background: #FFF9D7;
+	border: 1px solid #E2C822;
+	padding: 1em;
+	margin: 1em 0;
+}
+
+a[href^="#error:"] {
+	background: red;
+	color: white;
+}
+
+form th, form td {
+	vertical-align: top;
+	font-weight: normal;
+}
+
+form th {
+	text-align: right;
+}
+
+form .required label {
+	font-weight: bold;
+}
+
+form .error {
+	color: #D00;
+	font-weight: bold;
+}
+
+html.js .jshidden {
+	display: none;
+}

@@ -2,6 +2,18 @@
  * @param string   $basePath web base path
  * @param array    $flashes  flash messages
  *}
+<!DOCTYPE html>
+<html lang="{$language}">
+<head>
+    {includeblock @layout.head.latte}
+</head>
+<body>
+    {* includeblock @layout.body.header.latte *}
+    {includeblock @layout.body.content.latte}
+    {includeblock @layout.body.footer.latte}
+</body>
+</html>
+
 
 <!DOCTYPE html>
 <html>
@@ -10,19 +22,14 @@
 
 	<title>{ifset #title}{include title|striptags} | {/ifset}Nette Sandbox</title>
 
-	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
 	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css">
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
 	{block head}{/block}
 </head>
 
 <body>
-	<script> document.documentElement.className+=' js' </script>
-
 	<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
-
 	{include content}
-
 	{block scripts}
 	<script src="{$basePath}/js/jquery.js"></script>
 	<script src="{$basePath}/js/netteForms.js"></script>

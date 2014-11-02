@@ -1,11 +1,16 @@
+* {
+	font-family: 'Ledger', serif;
+}
+
 body {
-	font-size: 15px;
+	font-size: 13.8pt;
 	line-height: 1.6;
 	color: #333;
 	background: white;
 }
 
-h1 {
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Signika', sans-serif;
 	color: #3484D2;
 }
 
@@ -51,4 +56,9 @@ form .error {
 
 html.js .jshidden {
 	display: none;
+}
+
+/*Bootstrap replace*/
+.btn {
+    border-radius: 0px;
 }

@@ -1,3 +1,18 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+<!DOCTYPE html>
+<html lang="{$language}">
+<head>
+    {includeblock @layout.head.latte}
+</head>
+<body>
+    {includeblock @layout.body.header.latte}
+    {includeblock @layout.body.content.latte}
+    {includeblock @layout.body.footer.latte}
+</body>
+</html>{*
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,3 +45,4 @@
 	</fieldset>
 </body>
 </html>
+*}

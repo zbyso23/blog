@@ -1,0 +1,17 @@
+    <title>{ifset #title}{include title|striptags} | {/ifset} TITLE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {foreach $filesJs as $file}
+    <script type="text/javascript" src="{$basePath}/js/{$file}"></script>
+    {/foreach}
+    {control js}
+{dump $filesJs}
+    {foreach $filesCss as $file}
+    <link rel="stylesheet" media="screen" href="{$basePath}/css/{$file}">
+    {/foreach}
+    {control css}
+    <link href='http://fonts.googleapis.com/css?family=Ledger&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=EB+Garamond&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Signika:400,600,700,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+    <link rel="icon" href="{$basePath}/favicon.png" type="image/png">
