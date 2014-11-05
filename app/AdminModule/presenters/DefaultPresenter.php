@@ -16,6 +16,5 @@ class DefaultPresenter extends BasePresenter
 
 		$this->template->hash   = Passwords::hash('heslo');
 		$this->template->email  = $this->getUser()->getIdentity()->data['email'];
-		// die('#');
 	}
 }

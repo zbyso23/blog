@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenters;
+namespace Presenters;
 
 use Nette,
 	App\Model;
@@ -21,6 +21,8 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     protected $filesJs    = array('loader'   => array(), 'header'  => array());
     protected $filesCss   = array('loader'   => array(), 'header'  => array());
 
+    protected $module;
+
 	public function __construct(Model\UsersRepository $users, Model\RolesRepository $roles, Model\AccessRepository $access)
 	{
 		$this->roles  = $roles;
@@ -28,12 +30,12 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		$this->users  = $users;
 	}
 
-	public function stratup()
+	public function startup()
 	{
 		parent::startup();
 		$this->user = $this->getUser();
 		$this->isLoggedIn = $this->user->isLoggedIn();
-		$this->user->getAuthorizator()->initialize($this->user->getIdentity());
+		if(true === $this->isLoggedIn) $this->user->getAuthorizator()->initialize($this->user->getIdentity());
 	}
 
 	protected function beforeRender()
@@ -63,8 +65,8 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         if(array_key_exists($action, $this->permissionGroups)) $action = $this->permissionGroups[$action];
         // check if user has permission
 		$resource = $this->getResource();
-        if(($resource === self::MODULE.':Users' && ($action === 'login' || $action === 'logout')) || 
-            $resource === self::MODULE.':Default' && ($action === 'default' || $action === 'error'))
+        if(($resource === $this->module.':Users' && ($action === 'login' || $action === 'logout')) || 
+            $resource === $this->module.':Default' && ($action === 'default' || $action === 'error'))
         {
             return true;
         }
@@ -90,13 +92,13 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         return $access;
     }
 
-    public function getResource()
+    public function getResource($short = false)
 	{
         if(!preg_match('/^[a-zA-Z0-9]+\:([a-zA-Z0-9]+)$/', $this->getName(), $matches))
         {
-            return self::MODULE.':'.$this->getName();
+            return $this->module.':'.$this->getName();
         }
-		return self::MODULE.':'.$matches[1];
+		return (false === $short) ? $this->module.':'.$matches[1] : $matches[1];
 	}
 
     protected function isUserInRole($roleName)
