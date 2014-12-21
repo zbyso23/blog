@@ -25,7 +25,7 @@ services:
 	- App\Security\Authorizator
 	- App\Security\Authenticator
 	- App\RouterFactory
-	- App\Model\RolesRepository
-	- App\Model\AccessRepository
-	- App\Model\UsersRepository
+	roles: App\Model\RolesRepository
+	access: App\Model\AccessRepository
+	users: App\Model\UsersRepository
 	router: @App\RouterFactory::createRouter

@@ -15,6 +15,22 @@ abstract class BasePresenter extends \Presenters\BasePresenter
             $this->redirectUrl($url);
             $this->terminate();
         }
-        
+        $this->addFilesJs(array(
+            'jquery.js',
+        ), false);
+        $this->addFilesJs(array(
+            '../bootstrap/js/bootstrap.min.js',
+            '../bootstrap/js/docs.min.js',
+            'netteForms.js',
+            'main.js'
+        ));
+        $this->addFilesCss(array(
+            '../bootstrap/css/bootstrap.min.css',
+            'admin.css'
+        ));
 	}
+
+
+
+
 }

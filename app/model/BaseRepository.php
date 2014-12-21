@@ -33,4 +33,10 @@ abstract class BaseRepository extends Nette\Object
 	{
 		return $this->findAll()->insert($values);
 	}
+
+	/** @return Nette\Database\Table\ActiveRow */
+	public function update($values)
+	{
+		return $this->findAll()->update($values);
+	}
 }

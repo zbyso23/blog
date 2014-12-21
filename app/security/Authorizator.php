@@ -28,27 +28,26 @@ class Authorizator extends NS\Permission
     
     static $resources;
     
-	//public function __construct(\DBUsers $users, \DBRoles $roles, \DBAccess $access)
     public function __construct(Model\UsersRepository $users, Model\RolesRepository $roles, Model\AccessRepository $access)
 	{
 		$this->dbUsers  = $users;
         $this->dbRoles  = $roles;
         $this->dbAccess = $access;
-        //$this->loadResources();
+        $this->loadResources();
 	}
 
 	private function loadResources() 
     {
         if(is_array(self::$resources)) return self::$resources;
         self::$resources = array();
-        $access = $this->dbAccess->get();
+        $access = $this->dbAccess->findAll();
         foreach($access as $resource)
         {
             if(!array_key_exists($resource->resource, self::$resources))
             {
                 self::$resources[$resource->resource] = array();
             }
-            self::$resources[$resource->resource][$resource->privilege] = false;
+            self::$resources[$resource->resource][$resource->action] = false;
         }
         return self::$resources;
 	}
@@ -103,8 +102,8 @@ class Authorizator extends NS\Permission
     public function initialize(Nette\Security\Identity $userIdentity)
     {
         $this->userIdentity = $userIdentity;
-        $userRoles = $this->dbUsers->getRolesByEmail($this->userIdentity->email);
-
+//var_dump($this->userIdentity->roles[0]);die('99');
+        $userRoles = $this->dbRoles->findAll()->where('role_id = ?', $this->userIdentity->roles[0]);
         $isSuperadmin = false;
 		// add all roles
 		foreach ($userRoles as $role)

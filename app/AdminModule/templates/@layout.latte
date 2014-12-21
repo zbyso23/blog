@@ -3,7 +3,15 @@
 <head>
 	<meta charset="utf-8">
 	<title>Modules demo</title>
-	<link rel="stylesheet" media="screen" href="{$basePath}/css/site.css">
+    {foreach $filesJs as $file}
+    <script type="text/javascript" src="{$basePath}/js/{$file}"></script>
+    {/foreach}
+    {control js}
+{dump $filesJs}
+    {foreach $filesCss as $file}
+    <link rel="stylesheet" media="screen" href="{$basePath}/css/{$file}">
+    {/foreach}
+    {control css}
 </head>
 
 <body>

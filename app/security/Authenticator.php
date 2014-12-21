@@ -17,7 +17,9 @@ class Authenticator extends Nette\Object implements Nette\Security\IAuthenticato
 		COLUMN_ID            = 'user_id',
 		COLUMN_EMAIL         = 'email',
 		COLUMN_PASSWORD_HASH = 'password',
-		COLUMN_ROLE          = 'role';
+		COLUMN_ROLE          = 'role',
+		ROLES_TABLE_NAME     = 'roles',
+		ROLES_COLUMN_ID      = 'role_id';
 
 
 	/** @var Nette\Database\Context */
@@ -43,7 +45,6 @@ class Authenticator extends Nette\Object implements Nette\Security\IAuthenticato
 	public function authenticate(array $credentials)
 	{
 		list($email, $password) = $credentials;
-
 		$row = $this->database->table(self::TABLE_NAME)->where(self::COLUMN_EMAIL, $email)->fetch();
 
 		if (!$row) {
@@ -60,7 +61,9 @@ class Authenticator extends Nette\Object implements Nette\Security\IAuthenticato
 
 		$arr = $row->toArray();
 		unset($arr[self::COLUMN_PASSWORD_HASH]);
-		return new Nette\Security\Identity($row[self::COLUMN_ID], $row[self::COLUMN_ROLE], $arr);
+		//Not needed $rowRole = $this->database->table(self::ROLES_TABLE_NAME)->where(self::ROLES_COLUMN_ID, $row[self::ROLES_COLUMN_ID])->fetch();
+		//return new Nette\Security\Identity($row[self::COLUMN_ID], $rowRole->name, $arr);
+		return new Nette\Security\Identity($row[self::COLUMN_ID], $row[self::ROLES_COLUMN_ID], $arr);
 	}
 
 
