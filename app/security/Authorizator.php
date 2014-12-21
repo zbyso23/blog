@@ -87,7 +87,7 @@ class Authorizator extends NS\Permission
 		if (!array_key_exists($resource, self::$resources) ||
             !array_key_exists($privilege, self::$resources[$resource]))
         {
-            return false;
+            $this->dbAccess->insert(array('resource' => $resource, 'action' => $privilege, 'role' => array('superadmin')));
         }
         return true;
 	}

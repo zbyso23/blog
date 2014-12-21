@@ -25,6 +25,9 @@
 		<legend>This is layout template <code>{$template->getName() |replace:$root}</code></legend>
 
 		<fieldset>
+			{foreach $flashes as $flash}
+			<div class="flash {$flash->type}">{$flash->message}</div>
+			{/foreach}
 			<legend>This is content block template <code>{$presenter->template->getFile() |replace:$root}</code></legend>
 			{include content}
 		</fieldset>

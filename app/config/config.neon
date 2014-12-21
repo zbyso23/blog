@@ -28,4 +28,5 @@ services:
 	roles: App\Model\RolesRepository
 	access: App\Model\AccessRepository
 	users: App\Model\UsersRepository
+	blog: App\Model\BlogRepository
 	router: @App\RouterFactory::createRouter

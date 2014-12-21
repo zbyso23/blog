@@ -1,0 +1,30 @@
+{block content}
+
+<h1>Blog</h1>
+{if $stories->count() > 0}
+<table class="table">
+	<thead>
+		<th>name</th>
+		<th>published</th>
+		<th>actions</th>
+	</thead>
+	<tbody>
+	{foreach $stories as $story}
+		{var $id = (int) $story['id']}
+		<tr>
+			<td>{$story['name']}</td>
+			<td>
+				<a href="{if (int) $story['published'] == 1}{link unpublish $id}{else}{link publish $id}{/if}">
+				<span class="glyphicon {if (int) $story['published'] == 1}glyphicon-ok-circle{else}glyphicon-ban-circle{/if}"></span>
+				</a>
+			</td>
+			<td><a href="#"></a></td>
+			
+		</tr>
+	{/foreach}
+	</tbody>
+</table>
+{/if}
+
+<h2>Add new story</h2>
+{control storyForm}

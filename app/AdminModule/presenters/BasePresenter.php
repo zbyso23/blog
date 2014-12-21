@@ -5,6 +5,18 @@ abstract class BasePresenter extends \Presenters\BasePresenter
 {
 	protected $module = 'Admin';
 
+    protected function beforeRender()
+    {
+        parent::beforeRender();
+        $permission = $this->hasPermission();
+        if(false === $permission)
+        {
+            $resource = $this->getResource();
+            $action = $this->getAction();
+            $this->flashMessage('Permission denied, contact admin');
+            $this->redirect('Default:default');
+        }
+    }
 
 	public function startup()
 	{

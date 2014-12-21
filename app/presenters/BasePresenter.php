@@ -5,6 +5,9 @@ namespace Presenters;
 use Nette,
 	App\Model;
 
+Class BlogException extends \Exception
+{ 
+}
 
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
@@ -18,10 +21,12 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	protected $user;
 	protected $isLoggedIn;
 
-    protected $filesJs    = array('loader'   => array(), 'header'  => array());
-    protected $filesCss   = array('loader'   => array(), 'header'  => array());
+    protected $filesJs          = array('loader'   => array(), 'header'  => array());
+    protected $filesCss         = array('loader'   => array(), 'header'  => array());
 
     protected $module;
+
+    protected $permissionGroups = array();
 
 	public function __construct(Model\UsersRepository $users, Model\RolesRepository $roles, Model\AccessRepository $access)
 	{
@@ -62,7 +67,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     {
         $action = (!$action) ? $this->getAction() : $action;
         //Group actions to operations - like action enable to update
-        if(array_key_exists($action, $this->permissionGroups)) $action = $this->permissionGroups[$action];
+        //if(array_key_exists($action, $this->permissionGroups)) $action = $this->permissionGroups[$action];
         // check if user has permission
 		$resource = $this->getResource();
         if(($resource === $this->module.':Users' && ($action === 'login' || $action === 'logout')) || 
