@@ -3,7 +3,11 @@ namespace App\Model;
 
 class UsersRepository extends BaseRepository
 {
-	/** @var Nette\Database\Context */
-	protected $database;
-	protected $table = 'users';
+	const COLLECTION = 'users';
+
+	protected function setCollection()
+	{
+		$collection = self::COLLECTION;
+		$this->collection = $this->database->$collection;
+	}
 }

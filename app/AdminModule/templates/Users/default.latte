@@ -10,15 +10,13 @@
 	</thead>
 	<tbody>
 	{foreach $users as $user}
-		{var $detail = $user['detail']}
-		{var $role   = $user['role']}
-		{var $id     = $detail->user_id}
+		{var $id = (int) $user['id']}
 		<tr>
-			<td>{$detail->email}</td>
-			<td>{$role->name}</td>
+			<td>{$user['email']}</td>
+			<td>{$user['role']}</td>
 				<td>
-					<a href="{if $detail->active == 1}{link activate $id}{else}{link deactivate $id}{/if}">
-					<span class="glyphicon {if $detail->active == 1}glyphicon-ok-circle{else}glyphicon-ban-circle{/if}"></span>
+					<a href="{if (int) $user['active'] == 1}{link deactivate $id}{else}{link activate $id}{/if}">
+					<span class="glyphicon {if (int) $user['active'] == 1}glyphicon-ok-circle{else}glyphicon-ban-circle{/if}"></span>
 					</a>
 				</td>
 			<td><a href="#"></a></td>

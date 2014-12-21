@@ -3,8 +3,11 @@ namespace App\Model;
 
 class RolesRepository extends BaseRepository
 {
-	/** @var Nette\Database\Context */
-	protected $database;
-	protected $table = 'roles';
+	const COLLECTION = 'roles';
 
+	protected function setCollection()
+	{
+		$collection = self::COLLECTION;
+		$this->collection = $this->database->$collection;
+	}
 }

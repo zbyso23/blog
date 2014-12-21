@@ -15,9 +15,6 @@ class Authorizator extends NS\Permission
 	/** @var Model\UsersRepository */
 	protected $dbUsers;
 
-	/** @var Model\RolesRepository */
-	protected $dbRoles;
-    
 	/** @var Model\AccessRepository */
 	protected $dbAccess;
     
@@ -28,10 +25,9 @@ class Authorizator extends NS\Permission
     
     static $resources;
     
-    public function __construct(Model\UsersRepository $users, Model\RolesRepository $roles, Model\AccessRepository $access)
+    public function __construct(Model\UsersRepository $users, Model\AccessRepository $access)
 	{
 		$this->dbUsers  = $users;
-        $this->dbRoles  = $roles;
         $this->dbAccess = $access;
         $this->loadResources();
 	}
@@ -43,11 +39,11 @@ class Authorizator extends NS\Permission
         $access = $this->dbAccess->findAll();
         foreach($access as $resource)
         {
-            if(!array_key_exists($resource->resource, self::$resources))
+            if(!array_key_exists($resource['resource'], self::$resources))
             {
-                self::$resources[$resource->resource] = array();
+                self::$resources[$resource['resource']] = array();
             }
-            self::$resources[$resource->resource][$resource->action] = false;
+            self::$resources[$resource['resource']][$resource['action']] = false;
         }
         return self::$resources;
 	}
@@ -80,9 +76,6 @@ class Authorizator extends NS\Permission
         return self::$resources[$resource][$privilege];
     }
     
-    
-
-
 	/**
 	 * Returns TRUE if the Resource exists in the list.
 	 * @param $resource	string
@@ -102,20 +95,8 @@ class Authorizator extends NS\Permission
     public function initialize(Nette\Security\Identity $userIdentity)
     {
         $this->userIdentity = $userIdentity;
-//var_dump($this->userIdentity->roles[0]);die('99');
-        $userRoles = $this->dbRoles->findAll()->where('role_id = ?', $this->userIdentity->roles[0]);
-        $isSuperadmin = false;
-		// add all roles
-		foreach ($userRoles as $role)
-        {
-			$this->userRoles[$role->role_id] = $role->name;
-            if($role->name === 'superadmin')
-            {
-                $isSuperadmin = true;
-                break;
-            }
-		}
-        
+        $role = $this->userIdentity->roles[0];
+        $isSuperadmin = ($role === 'superadmin');
         if($isSuperadmin)
         {
             foreach(self::$resources as $resource => $privileges)
@@ -129,21 +110,11 @@ class Authorizator extends NS\Permission
             return;
         }
         
-        $acl = $this->dbRoles->getACL();
-        foreach($acl as $access)
+        $access = $this->dbAccess->findAll();
+        foreach($access as $resource)
         {
-            if (array_key_exists($access->role_id, $this->userRoles))
-            {
-                if (array_key_exists($access->resource, self::$resources) &&
-                    array_key_exists($access->privilege, self::$resources[$access->resource]))
-                {
-                    self::$resources[$access->resource][$access->privilege] = true;
-                }
-            }
+            if (array_key_exists($role, $resource['role'])) self::$resources[$access->resource][$access->privilege] = true;
         }
-
-
-
         $this->isInitialized = true;
     }
 }

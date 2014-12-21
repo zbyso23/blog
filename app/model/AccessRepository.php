@@ -3,7 +3,11 @@ namespace App\Model;
 
 class AccessRepository extends BaseRepository
 {
-	/** @var Nette\Database\Context */
-	protected $database;
-	protected $table = 'access';
+	const COLLECTION = 'access';
+
+	protected function setCollection()
+	{
+		$collection = self::COLLECTION;
+		$this->collection = $this->database->$collection;
+	}
 }

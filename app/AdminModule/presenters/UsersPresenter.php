@@ -29,25 +29,21 @@ class UsersPresenter extends BasePresenter
 	public function actionDefault()
 	{
 		$users     = $this->dbUsers->findAll();
-		$usersList = array();
-		foreach ($users as $user)
-		{
-			$roleId      = $user->role_id;
-			$role        = $this->dbRoles->findAll()->where('role_id = ?', $user->role_id)->fetch();
-			$usersList[] = array('detail' => $user, 'role' => $role);
-		}
-		$this->template->users = $usersList;
+		$this->template->users = $users;
 	}
 
 	public function actionActivate($id)
 	{
-		$this->dbUsers->update(array('active' => 1))->where('user_id = ?', $id);
+		$query = array('id' => (int) $id);
+		$this->dbUsers->update($query, array('active' => 1));
 		$this->redirect('default');
 	}
 
 	public function actionDeactivate($id)
 	{
-		$this->dbUsers->update(array('active' => 0))->where('user_id = ?', $id);
+		$query = array('id' => (int) $id);
+		$result = $this->dbUsers->update($query, array('active' => 0));
+		//var_export($result);die('X');
 		$this->redirect('default');
 	}
 
